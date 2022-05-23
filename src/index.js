@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { render } from 'react-dom';
 import { DatePicker, message, Alert } from 'antd';
 import 'antd/dist/antd.less';
-import './index.less';
+import './index.css';
 
 const App = () => {
   const [date, setDate] = useState(null);

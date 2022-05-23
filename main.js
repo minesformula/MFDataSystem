@@ -1,9 +1,13 @@
 const path = require('path');
-
 const { app, BrowserWindow } = require('electron');
 const isDev = require('electron-is-dev');
+const {setupTitlebar, attachTitlebarToWindow} = require('custom-electron-titlebar/main');
+
+// setup the titlebar main process
+setupTitlebar();
 
 function createWindow() {
+  
   // Create the browser window.
   const win = new BrowserWindow({
     width: 800,
@@ -13,6 +17,7 @@ function createWindow() {
     },
   });
 
+  attachTitlebarToWindow(win);
   // and load the index.html of the app.
   // win.loadFile("index.html");
   win.loadURL(
