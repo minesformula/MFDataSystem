@@ -1,25 +1,26 @@
 const path = require('path');
-const { app, BrowserWindow } = require('electron');
+const {app, BrowserWindow, Menu} = require('electron');
 const isDev = require('electron-is-dev');
-const {setupTitlebar, attachTitlebarToWindow} = require('custom-electron-titlebar/main');
+const { setupTitlebar, attachTitlebarToWindow } = require('custom-electron-titlebar/main');
 
 // setup the titlebar main process
 setupTitlebar();
 
 function createWindow() {
-  
   // Create the browser window.
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    titleBarStyle: 'hidden',
     webPreferences: {
-      nodeIntegration: true,
-    },
+      preload: path.join(__dirname, 'preload.js')
+    }
   });
 
-  attachTitlebarToWindow(win);
-  // and load the index.html of the app.
-  // win.loadFile("index.html");
+  // const menu = Menu.buildFromTemplate();
+  // Menu.setApplicationMenu(menu);
+  
+  // location of React App
   win.loadURL(
     isDev
       ? 'http://localhost:3000'
@@ -27,8 +28,10 @@ function createWindow() {
   );
   // Open the DevTools.
   if (isDev) {
-    win.webContents.openDevTools({ mode: 'detach' });
+    //win.webContents.openDevTools({ mode: 'detach' });
   }
+
+  attachTitlebarToWindow(win);
 }
 
 // This method will be called when Electron has finished
