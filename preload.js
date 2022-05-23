@@ -7,7 +7,7 @@ let titlebar;
 
 window.addEventListener('DOMContentLoaded', () => {
   titlebar = new Titlebar({
-    backgroundColor: Color.fromHex("#18191b"),
+    backgroundColor: Color.fromHex("#2a2a2a"),
     itemBackgroundColor: Color.fromHex("#121212"),
     svgColor: Color.WHITE,
     icon: path.join(__dirname, '/assets/images', '/icon.svg'),
