@@ -7,6 +7,7 @@
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.20.6",
+    "@ant-design/charts": "1.2.11",
     "cross-env": "^7.0.3",
     "custom-electron-titlebar": "^4.1.0",
     "less": "^4.1.2",
