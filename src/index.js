@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { render } from 'react-dom';
+import './index.css';
 import { DatePicker, message, Alert } from 'antd';
 import 'antd/dist/antd.less';
-import './index.css';
+import SideNav from './components/SideNav';
 
 const App = () => {
   const [date, setDate] = useState(null);
@@ -11,12 +12,16 @@ const App = () => {
     setDate(value);
   };
   return (
-    <div style={{ width: 400, margin: '100px auto' }}>
-      <DatePicker onChange={handleChange} />
-      <div style={{ marginTop: 16 }}>
-        <Alert message="Selected Date" description={date ? date.format('YYYY-MM-DD') : 'None'} />
+    <>
+      <SideNav></SideNav>
+
+      <div style={{ width: 400, margin: '100px auto' }}>
+        <DatePicker onChange={handleChange} />
+        <div style={{ marginTop: 16 }}>
+          <Alert message="Selected Date" description={date ? date.format('YYYY-MM-DD') : 'None'} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
