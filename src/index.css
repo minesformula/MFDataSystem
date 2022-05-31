@@ -31,6 +31,7 @@ body {
   color: #ffffff;
 }
 
-.mainPage {
+main {
   margin-left: 60px;
+  padding-left: 10px;
 }

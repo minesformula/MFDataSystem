@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { VscCloudDownload, VscGraphLine, VscHome, VscRadioTower, VscTools } from "react-icons/vsc";
+import { Link } from "react-router-dom";
 
-const SideNav = () => {
-    return (
-        <>
-            <nav class="sidenav">
-                <a href="../../public/index.html"><VscHome /></a>
-
-                <a href="../../public/index.html"><VscCloudDownload /></a>
-                
-                <a href="../../public/index.html"><VscGraphLine /></a>
-
-                <a href="../../public/index.html"><VscRadioTower/></a>
-                
-                <a href="../../public/index.html"><VscTools/></a>
-            </nav>
-        </>
-    );
-};
-export default SideNav;
+export default function SideNav() {
+  return (
+    <nav class="sidenav">
+      <Link to="/"><VscHome /></Link>
+      <Link to="/import"><VscCloudDownload /></Link>
+      <Link to="/dashboard"><VscGraphLine /></Link>
+      <Link to="/live"><VscRadioTower/></Link>
+      <Link to="/settings"><VscTools/></Link>
+    </nav>
+  );
+}

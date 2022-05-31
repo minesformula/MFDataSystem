@@ -1,28 +1,33 @@
-import React, { useState } from 'react';
-import { render } from 'react-dom';
+import ReactDOM from "react-dom/client";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import SideNav from "./components/SideNav";
+import Home from "./components/Home";
+import Ingest from "./components/Ingest";
+import Dashboard from "./components/Dashboard";
+import Live from "./components/Live";
+import Config from "./components/Config";
+
 import './index.css';
-import { DatePicker, message, Alert } from 'antd';
 import 'antd/dist/antd.less';
-import SideNav from './components/SideNav';
 
-const App = () => {
-  const [date, setDate] = useState(null);
-  const handleChange = value => {
-    message.info(`Selected Date: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
-    setDate(value);
-  };
-  return (
-    <>
-      <SideNav></SideNav>
+const root = ReactDOM.createRoot(
+  document.getElementById("root")
+);
 
-      <div style={{ width: 400, margin: '100px auto' }}>
-        <DatePicker onChange={handleChange} />
-        <div style={{ marginTop: 16 }}>
-          <Alert message="Selected Date" description={date ? date.format('YYYY-MM-DD') : 'None'} />
-        </div>
-      </div>
-    </>
-  );
-};
+root.render(
+  <BrowserRouter>
+    <SideNav></SideNav>
 
-render(<App />, document.getElementById('root'));
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/import" element={<Ingest />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/live" element={<Live />} />
+      <Route path="/settings" element={<Config />} />
+    </Routes>
+  </BrowserRouter>
+);
