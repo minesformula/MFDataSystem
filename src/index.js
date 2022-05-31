@@ -4,6 +4,7 @@ import { DatePicker, message, Alert, Select} from 'antd';
 import 'antd/dist/antd.less';
 import './index.css';
 import LineGraph from './components/linegraph.js'
+import MyMapComponent from './components/gpsdata';
 
 const { Option } = Select;
 
@@ -104,6 +105,9 @@ const App = () => {
           <Option value="invalid">Invalid</Option>
         </Select>
         <LineGraph x={x} y={y} data={input}></LineGraph>
+      </div>
+      <div>
+        <MyMapComponent></MyMapComponent>
       </div>
     </div>
   );
