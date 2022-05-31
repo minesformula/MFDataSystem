@@ -1,112 +1,33 @@
-import React, { useState } from 'react';
-import { render } from 'react-dom';
-import { DatePicker, message, Alert, Select} from 'antd';
-import 'antd/dist/antd.less';
+import ReactDOM from "react-dom/client";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import SideNav from "./components/SideNav";
+import Home from "./components/Home";
+import Ingest from "./components/Ingest";
+import Dashboard from "./components/Dashboard";
+import Live from "./components/Live";
+import Config from "./components/Config";
+
 import './index.css';
-import LineGraph from './components/linegraph.js'
+import 'antd/dist/antd.less';
 
-const { Option } = Select;
+const root = ReactDOM.createRoot(
+  document.getElementById("root")
+);
 
-const App = () => {
-  var input = [
-    {
-      time: '1991',
-      speed: 3,
-      test: 2
-    },
-    {
-      time: '1992',
-      speed: 4,
-      test: 3
-    },
-    {
-      time: '1993',
-      speed: 3.5,
-      test: 4
-    },
-    {
-      time: '1994',
-      speed: 5,
-      test: 5
-    },
-    {
-      time: '1995',
-      speed: 4.9,
-      test: 6
-    },
-    {
-      time: '1996',
-      speed: 6,
-      test: 7
-    },
-    {
-      time: '1997',
-      speed: 7,
-      test: 8
-    },
-    {
-      time: '1998',
-      speed: 9,
-      test: 9
-    },
-    {
-      time: '1999',
-      speed: 13,
-      test: 10
-    },
-  ];
-  const [date, setDate] = useState(null);
-  const [x, setX] = useState(null);
-  const [y, setY] = useState(null);
-  const handleChange = value => {
-    message.info(`Selected Date: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
-    setDate(value);
-  };
-  const handleSelectXChange = (value) => {
-    console.log(`selected X: ${value}`);
-    setX(value);
-  };
-  const handleSelectYChange = (value) => {
-    console.log(`selected Y: ${value}`);
-    setY(value);
-  };
-  return (
-    <div style={{ width: 400, margin: '100px auto' }}>
-      <DatePicker onChange={handleChange} />
-      <div style={{ marginTop: 16 }}>
-        <Alert message="Selected Date" description={date ? date.format('YYYY-MM-DD') : 'None'} />
-      </div>
-      <div>
-        <Select
-        defaultValue="x"
-        style={{
-          width: 120,
-        }}
-        onChange={handleSelectXChange}
-        >
-          <Option value="x" disabled>X Axis</Option>
-          <Option value="time">Time</Option>
-          <Option value="speed">Speed</Option>
-          <Option value="test">Test</Option>
-          <Option value="invalid">Invalid</Option>
-        </Select>
-        <Select
-        defaultValue="y"
-        style={{
-          width: 120,
-        }}
-        onChange={handleSelectYChange}
-        >
-          <Option value="y" disabled>Y Axis</Option>
-          <Option value="time">Time</Option>
-          <Option value="speed">Speed</Option>
-          <Option value="test">Test</Option>
-          <Option value="invalid">Invalid</Option>
-        </Select>
-        <LineGraph x={x} y={y} data={input}></LineGraph>
-      </div>
-    </div>
-  );
-};
+root.render(
+  <BrowserRouter>
+    <SideNav></SideNav>
 
-render(<App />, document.getElementById('root'));
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/import" element={<Ingest />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/live" element={<Live />} />
+      <Route path="/settings" element={<Config />} />
+    </Routes>
+  </BrowserRouter>
+);
