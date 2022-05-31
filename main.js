@@ -37,7 +37,7 @@ function createWindow(p_height, p_width) {
   );
   // Open the DevTools.
   if (isDev) {
-    //win.webContents.openDevTools({ mode: 'detach' });
+    win.webContents.openDevTools({ mode: 'detach' });
   }
 
   attachTitlebarToWindow(win);

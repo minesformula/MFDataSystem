@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DatePicker, message, Alert, Select} from 'antd';
 import 'antd/dist/antd.less';
-import LineGraph from './linegraph.js'
+import LineGraph from '../components/linegraph'
 
 const { Option } = Select;
 

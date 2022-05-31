@@ -5,11 +5,11 @@ import {
   Route,
 } from "react-router-dom";
 import SideNav from "./components/SideNav";
-import Home from "./components/Home";
-import Ingest from "./components/Ingest";
-import Dashboard from "./components/Dashboard";
-import Live from "./components/Live";
-import Config from "./components/Config";
+import Home from "./routes/Home";
+import Ingest from "./routes/Ingest";
+import Dashboard from "./routes/Dashboard";
+import Live from "./routes/Live";
+import Config from "./routes/Config";
 
 import './index.css';
 import 'antd/dist/antd.less';
