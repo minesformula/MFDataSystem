@@ -12,7 +12,7 @@ function createWindow(p_height, p_width) {
     titleBarStyle: 'hidden',
     backgroundColor: '##1c1c1c',
 
-    minWidth: 800,
+    minWidth: 640,
     minHeight: 600,
     width: p_width,
     height: p_height,

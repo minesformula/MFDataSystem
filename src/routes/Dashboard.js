@@ -70,19 +70,29 @@ export default function Dashboard() {
   };
   return (
     <main>
-      <div style={{ width: 400, margin: '100px auto' }}>
+      <nav className="live-nav">
         <DatePicker onChange={handleChange} />
-        <div style={{ marginTop: 16 }}>
-          <Alert message="Selected Date" description={date ? date.format('YYYY-MM-DD') : 'None'} />
-        </div>
+
+        <label>Driver:</label>
+        <select name="cars" id="cars">
+          <option value="volvo">Max</option>
+          <option value="saab">Chirs</option>
+          <option value="opel">Gabi</option>
+          <option value="audi">Other</option>
+        </select>
+        
+        <label>Lap:</label>
+        <select name="cars" id="cars">
+          <option value="volvo">1</option>
+          <option value="saab">2</option>
+          <option value="opel">3</option>
+          <option value="audi">4</option>
+        </select>
+      </nav>
+
+      <div style={{ width: 400, margin: '100px auto' }}>
         <div>
-          <Select
-          defaultValue="x"
-          style={{
-            width: 120,
-          }}
-          onChange={handleSelectXChange}
-          >
+          <Select defaultValue="x" style={{ width: 120, }} onChange={handleSelectXChange} >
             <Option value="x" disabled>X Axis</Option>
             <Option value="time">Time</Option>
             <Option value="speed">Speed</Option>

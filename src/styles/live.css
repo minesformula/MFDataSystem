@@ -1,0 +1,28 @@
+
+.live-nav {
+    background-color: #393939;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.live-nav a {
+    padding: 12px;
+    padding-top: 10px;
+    padding-bottom: 11px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #d4d4d4;
+    text-align: center;
+}
+
+.live-nav a:hover {
+    background-color: #454545;
+    color: #ffffff;
+}
+
+.live-nav button {
+    margin-left: 20px;
+    font-size: 14px;
+    color: #33639b;
+    text-align: center;
+}

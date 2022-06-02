@@ -1,7 +1,8 @@
 @import '~antd/dist/antd.css';
 
 body {
-  background-color: #dcdcdc;
+  background-color: #1e1e1e;
+  overflow-y: hidden;
 }
 
 .sidenav {
@@ -33,5 +34,4 @@ body {
 
 main {
   margin-left: 60px;
-  padding-left: 10px;
 }

@@ -1,9 +1,18 @@
 import React from "react";
+import "../styles/live.css"
  
 export default function Live() {
   return (
     <main>
-      <h2>WIP Live</h2>
+      <nav className="live-nav">
+        <a>General</a>
+        <a>Powertrain</a>
+        <a>Electrical</a>
+        <a>Suspension</a>
+        <a>Aerodynamics</a>
+        <button>Connect</button>
+      </nav>
+      
     </main>
   );
 }
