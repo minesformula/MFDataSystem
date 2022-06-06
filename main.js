@@ -1,5 +1,5 @@
 const path = require('path');
-const {app, BrowserWindow, Menu} = require('electron');
+const {app, BrowserWindow, Menu, dialog} = require('electron');
 const isDev = require('electron-is-dev');
 const { setupTitlebar, attachTitlebarToWindow } = require('custom-electron-titlebar/main');
 
@@ -26,8 +26,41 @@ function createWindow(p_height, p_width) {
   });
 
   // win.maximize();
-  // const menu = Menu.buildFromTemplate();
-  // Menu.setApplicationMenu(menu);
+  const menu = Menu.buildFromTemplate([
+    {
+      label: 'Menu',
+      submenu: [
+        {
+           label:'Open File',
+           accelerator: 'CmdOrCtrl+O',
+           // this is the main bit hijack the click event 
+           click() {
+              // construct the select file dialog 
+              dialog.showOpenDialog({
+                properties: ['openFile']
+              })
+              .then(function(fileObj) {
+                 // the fileObj has two props 
+                 if (!fileObj.canceled) {
+                   mainWindow.webContents.send('FILE_OPEN', fileObj.filePaths)
+                 }
+              })
+  // should always handle the error yourself, later Electron release might crash if you don't 
+              .catch(function(err) {
+                 console.error(err)  
+              })
+           } 
+       },
+       {
+           label:'Exit',
+           click() {
+              app.quit()
+           } 
+         }
+      ]
+    }
+  ])
+  Menu.setApplicationMenu(menu)
   
   // location of React App
   win.loadURL(

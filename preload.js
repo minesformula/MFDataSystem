@@ -23,3 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`${type}-version`, process.versions[type])
   }
 })
+
+const { dialog } = require('electron').remote;
+window.electron = {};
+window.electron.dialog = dialog;

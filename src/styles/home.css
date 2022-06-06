@@ -37,14 +37,13 @@
     font-size: 20px;
 }
 
-.button {
-    border: none;
-    background-color: transparent;
-}
-
 .icon :hover{
     border: none;
     color:rgb(135, 135, 135)
+}
+
+#file-input {
+  display: none;
 }
 
 .tableLabel {

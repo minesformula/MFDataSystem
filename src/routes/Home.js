@@ -1,6 +1,8 @@
 import React from "react";
-import { VscFolderOpened, VscCloudUpload, VscSearch } from "react-icons/vsc";
+import { VscFolderOpened, VscCloudUpload } from "react-icons/vsc";
 import "../styles/home.css" 
+
+
 
 
 export default function Home() {
@@ -10,18 +12,18 @@ export default function Home() {
 
       <div class="wrapper">
         <div class="openIcon icon">
-          <button class="button">
             <VscFolderOpened class="icon"/>
             <p class="iconText">Open</p>
-          </button>
         </div>
 
         <div class="importIcon icon">
-          <button class="button">
+          <label for="file-input">
             <VscCloudUpload class="icon"/>
             <p class="iconText">Import</p>
-          </button>
+          </label>
+          <input id="file-input" type="file"/>
         </div>
+        
       </div>
 
       <div>
@@ -78,6 +80,8 @@ export default function Home() {
         </tr>
       </table>
       </div>
+
+      
     </main>
   );
 }
