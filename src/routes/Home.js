@@ -1,26 +1,82 @@
 import React from "react";
-import { VscFolderOpened, VscCloudUpload } from "react-icons/vsc";
+import { VscFolderOpened, VscCloudUpload, VscSearch } from "react-icons/vsc";
 import "../styles/home.css" 
 
 
 export default function Home() {
   return (
     <main>
-      <div class="mainIcons">
-        <div>
-          <button id=""><VscFolderOpened /></button>
-          <h1>Open</h1>
+      <h1 class="header">Mines Formula Data Systems</h1>
+
+      <div class="wrapper">
+        <div class="openIcon icon">
+          <button class="button">
+            <VscFolderOpened class="icon"/>
+            <p class="iconText">Open</p>
+          </button>
         </div>
 
-        <div>
-          <button id="mainIcons"><VscCloudUpload /></button>
-          <h1>Import</h1>
+        <div class="importIcon icon">
+          <button class="button">
+            <VscCloudUpload class="icon"/>
+            <p class="iconText">Import</p>
+          </button>
         </div>
-        
-        
-        
-    
+      </div>
 
+      <div>
+        <p class="tableLabel">Recent Sessions</p>
+
+        <table>
+        <tr>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Driver</th>
+          <th>Session</th>
+          <th># of Labs</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>5/31/2022</td>
+          <td>CTLM Lot</td>
+          <td>Max</td>
+          <td>1</td>
+          <td>10</td>
+          <td>Initial Car Testing</td>
+        </tr>
+        <tr>
+          <td>5/31/2022</td>
+          <td>CTLM Lot</td>
+          <td>Max</td>
+          <td>2</td>
+          <td>15</td>
+          <td>Initial Car Testing</td>
+        </tr>
+        <tr>
+          <td>5/31/2022</td>
+          <td>CTLM Lot</td>
+          <td>Max</td>
+          <td>3</td>
+          <td>4</td>
+          <td>Initial Car Testing</td>
+        </tr>
+        <tr>
+          <td>5/31/2022</td>
+          <td>CTLM Lot</td>
+          <td>Gabi</td>
+          <td>1</td>
+          <td>20</td>
+          <td>Initial Car Testing</td>
+        </tr>
+        <tr>
+          <td>5/31/2022</td>
+          <td>CTLM Lot</td>
+          <td>Gabi</td>
+          <td>2</td>
+          <td>9</td>
+          <td>Initial Car Testing</td>
+        </tr>
+      </table>
       </div>
     </main>
   );
