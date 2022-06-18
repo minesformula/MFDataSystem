@@ -19,20 +19,17 @@ class TrendChart extends React.Component {
     activeSeriesList: [],
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     // Step 2: 创建图表
     const chartDom = this.chartNodeRef.current;
+    let res = await db.allDocs();
+    let originData = res.rows;
+    console.log(originData);
 
-    fetch('https://gw.alipayobjects.com/os/bmw-prod/c335e0c4-caa5-4c76-a321-20df96b6e5c8.json')
-      .then((res) => res.json())
-      .then((originData) => {
+    //fetch('https://gw.alipayobjects.com/os/bmw-prod/c335e0c4-caa5-4c76-a321-20df96b6e5c8.json')
         const dv = new DataView().source(originData);
-        dv.transform({
-          type: 'fold',
-          fields: ['USA', 'California', 'BA9C', 'Marin'], // 展开字段集
-          key: 'series',
-          value: 'value',
-        });
+        console.log(dv)
+
         const data = dv.rows.map((d) => ({
           ...d,
           value: d.value ? Number(d.value) : d.value,
@@ -43,8 +40,8 @@ class TrendChart extends React.Component {
         const line = new Line(chartDom, {
           data,
           autoFit: true,
-          xField: 'Date',
-          yField: 'value',
+          xField: 'Time',
+          yField: 'Distance',
           seriesField: 'series',
           xAxis: {
             type: 'cat',
@@ -114,20 +111,21 @@ class TrendChart extends React.Component {
         this.chartRef = line;
         const lastData = _.last(data);
         const point = line.chart.getXY(lastData);
+        console.log(lastData) // value is nan
+        console.log(point)
         line.chart.showTooltip(point);
-        const activeTooltipTitle = lastData.Date;
-        this.setState({ tooltipItems: data.filter((d) => d.Date === activeTooltipTitle), activeTooltipTitle });
+        const activeTooltipTitle = lastData.Time;
+        this.setState({ tooltipItems: data.filter((d) => d.Time === activeTooltipTitle), activeTooltipTitle });
 
         line.on('plot:mouseleave', () => {
           line.chart.hideTooltip();
         });
         line.on('tooltip:change', (evt) => {
           const { title } = evt.data;
-          const tooltipItems = data.filter((d) => d.Date === title);
+          const tooltipItems = data.filter((d) => d.Time === title);
           this.setState({ tooltipItems, activeTooltipTitle: title });
         });
-      });
-  }
+      }
 
   changeActiveSeries = (activeSeries) => {
     const { activeTooltipTitle, activeSeriesList } = this.state;
