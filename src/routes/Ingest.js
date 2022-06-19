@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 const PouchDB = require('pouchdb').default;
-PouchDB.plugin(require('pouchdb-find'));
+PouchDB.plugin(require('pouchdb-find').default);
 
 function csvToArray(str, delimiter = ",") {
   // slice from start of text to the first \n index
@@ -58,6 +58,7 @@ export default function Ingest() {
                 const data = csvToArray(csvOutput);
                 var data2 = { "docs" : data }; //Fix pouchdb issue
                 //bulk load data
+
                 db.bulkDocs(data2);
 
                 //create index for faster lookups
@@ -66,6 +67,8 @@ export default function Ingest() {
                     fields: ['Time']
                   }
                 }).then(function (result) {
+                  console.log("Ingested Data:")
+                  console.log(data)
                   // handle result
                 }).catch(function (err) {
                   console.log(err);

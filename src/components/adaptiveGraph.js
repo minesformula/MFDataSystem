@@ -7,7 +7,6 @@ import insertCss from 'insert-css';
 const PouchDB = require('pouchdb').default;
 
 var db = new PouchDB('test');
-console.log(db.allDocs());
 
 class TrendChart extends React.Component {
   chartNodeRef = React.createRef();
@@ -22,18 +21,23 @@ class TrendChart extends React.Component {
   async componentDidMount() {
     // Step 2: 创建图表
     const chartDom = this.chartNodeRef.current;
-    let res = await db.allDocs();
+    let res = await db.allDocs({
+      include_docs: true,
+      attachments: true
+    });
     let originData = res.rows;
-    console.log(originData);
 
     //fetch('https://gw.alipayobjects.com/os/bmw-prod/c335e0c4-caa5-4c76-a321-20df96b6e5c8.json')
-        const dv = new DataView().source(originData);
-        console.log(dv)
+        const dv = new DataView().source(originData); 
 
         const data = dv.rows.map((d) => ({
           ...d,
-          value: d.value ? Number(d.value) : d.value,
+          Time: d.doc.Time ? Number(d.doc.Time) : 0,
+          Distance: d.doc.Distance ? Number(d.doc.Distance) : 0,
+          value: d.doc.distance ? Number(d.doc.distance) : 0
         }));
+        console.log(data);
+        data.sort((a,b) => (a.Time > b.Time) ? 1 : -1)
         if (this.chartRef) {
           this.chartRef?.current?.clear();
         }
@@ -111,11 +115,12 @@ class TrendChart extends React.Component {
         this.chartRef = line;
         const lastData = _.last(data);
         const point = line.chart.getXY(lastData);
-        console.log(lastData) // value is nan
+        console.log(lastData)
         console.log(point)
         line.chart.showTooltip(point);
         const activeTooltipTitle = lastData.Time;
         this.setState({ tooltipItems: data.filter((d) => d.Time === activeTooltipTitle), activeTooltipTitle });
+        console.log("Created Graph!")
 
         line.on('plot:mouseleave', () => {
           line.chart.hideTooltip();
