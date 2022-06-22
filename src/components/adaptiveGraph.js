@@ -6,7 +6,7 @@ import * as _ from '@antv/util';
 import insertCss from 'insert-css';
 const PouchDB = require('pouchdb').default;
 
-var db = new PouchDB('test');
+var db = new PouchDB('test1');
 
 class TrendChart extends React.Component {
   chartNodeRef = React.createRef();
@@ -15,123 +15,143 @@ class TrendChart extends React.Component {
   state = {
     tooltipItems: [],
     activeTooltipTitle: null,
-    activeSeriesList: [],
+    activeSeriesList: []
   };
-
   async componentDidMount() {
-    // Step 2: 创建图表
+    this.doShit()
+  };
+  async componentDidUpdate() {
+    this.doShit()
+  };
+  async doShit() {
     const chartDom = this.chartNodeRef.current;
-    let res = await db.allDocs({
-      include_docs: true,
-      attachments: true
-    });
-    let originData = res.rows;
+        let res = await db.allDocs({
+          include_docs: true,
+          attachments: true
+          })
+          let rows = res.rows;
+          const dv = new DataView().source(rows); 
+          let data = dv.rows.map((d) => ({
+            doc: d.doc,
+          }));
+          var i = 0;
+          while (i < data.length) {
+            data[i]=data[i].doc
+            if (!Object.getOwnPropertyNames(data[i]).includes(this.props.x) || !Object.getOwnPropertyNames(data[i]).includes(this.props.y)) {
+              data.splice(i, 1);
+            } else {
+              for(let key in data[i]) {
+                const parsed = parseFloat(data[i][key], 10);
+                data[i][key] = isNaN(parsed) ? data[i][key] : parsed;
+              }
+              ++i;
+            }
+          }
+          console.log("Sorting by: " + this.props.x)
+          console.log(data[0][this.props.x]) 
+          data.sort((a,b) => (parseFloat(a[this.props.x]) > parseFloat(b[this.props.x])) ? 1 : -1)
+          console.log(data[0][this.props.x])
+            console.log(data);
+            if (this.chartRef) {
+              this.chartRef?.current?.clear();
+            }
 
-    //fetch('https://gw.alipayobjects.com/os/bmw-prod/c335e0c4-caa5-4c76-a321-20df96b6e5c8.json')
-        const dv = new DataView().source(originData); 
+            //Remove this for infinite graphs
+            if(this.chartNodeRef.current.firstChild){
+              this.chartNodeRef.current.removeChild(this.chartNodeRef.current.firstChild)
+            }
 
-        const data = dv.rows.map((d) => ({
-          ...d,
-          Time: d.doc.Time ? Number(d.doc.Time) : 0,
-          Distance: d.doc.Distance ? Number(d.doc.Distance) : 0,
-          value: d.doc.distance ? Number(d.doc.distance) : 0
-        }));
-        console.log(data);
-        data.sort((a,b) => (a.Time > b.Time) ? 1 : -1)
-        if (this.chartRef) {
-          this.chartRef?.current?.clear();
-        }
-        const line = new Line(chartDom, {
-          data,
-          autoFit: true,
-          xField: 'Time',
-          yField: 'Distance',
-          seriesField: 'series',
-          xAxis: {
-            type: 'cat',
-            label: {
-              autoRotate: false,
-              formatter: (v) => {
-                return v.split('/').reverse().join('-');
-              },
-            },
-          },
-          yAxis: {
-            grid: {
-              line: {
-                style: {
-                  lineWidth: 0.5,
+            const line = new Line(chartDom, {
+              data,
+              autoFit: false,
+              xField: this.props.x,
+              yField: this.props.y,
+              seriesField: 'series',
+              xAxis: {
+                type: 'cat',
+                label: {
+                  autoRotate: false,
+                  formatter: (v) => {
+                    return v.split('/').reverse().join('-');
+                  },
                 },
               },
-            },
-          },
-          meta: {
-            Date: {
-              range: [0.04, 0.96],
-            },
-          },
-          point: {
-            shape: 'circle',
-            size: 2,
-            style: () => {
-              return {
-                fillOpacity: 0,
-                stroke: 'transparent',
-              };
-            },
-          },
-          appendPadding: [0, 0, 0, 0],
-          legend: false,
-          smooth: true,
-          lineStyle: {
-            lineWidth: 1.5,
-          },
-          tooltip: {
-            showMarkers: false,
-            follow: false,
-            position: 'top',
-            customContent: () => null,
-          },
-          theme: {
-            geometries: {
-              point: {
-                circle: {
-                  active: {
+              yAxis: {
+                grid: {
+                  line: {
                     style: {
-                      r: 4,
-                      fillOpacity: 1,
-                      stroke: '#000',
-                      lineWidth: 1,
+                      lineWidth: 0.5,
                     },
                   },
                 },
               },
-            },
-          },
-          interactions: [{ type: 'marker-active' }, { type: 'brush' }],
-        });
-
-        line.render();
-        this.chartRef = line;
-        const lastData = _.last(data);
-        const point = line.chart.getXY(lastData);
-        console.log(lastData)
-        console.log(point)
-        line.chart.showTooltip(point);
-        const activeTooltipTitle = lastData.Time;
-        this.setState({ tooltipItems: data.filter((d) => d.Time === activeTooltipTitle), activeTooltipTitle });
-        console.log("Created Graph!")
-
-        line.on('plot:mouseleave', () => {
-          line.chart.hideTooltip();
-        });
-        line.on('tooltip:change', (evt) => {
-          const { title } = evt.data;
-          const tooltipItems = data.filter((d) => d.Time === title);
-          this.setState({ tooltipItems, activeTooltipTitle: title });
-        });
-      }
-
+              meta: {
+                Date: {
+                  range: [0.04, 0.96],
+                },
+              },
+              point: {
+                shape: 'circle',
+                size: 2,
+                style: () => {
+                  return {
+                    fillOpacity: 0,
+                    stroke: 'transparent',
+                  };
+                },
+              },
+              appendPadding: [0, 0, 0, 0],
+              legend: false,
+              smooth: true,
+              lineStyle: {
+                lineWidth: 1.5,
+                stroke: "#fff"
+              },
+              tooltip: {
+                showMarkers: false,
+                follow: false,
+                position: 'top',
+                customContent: () => null,
+              },
+              theme: {
+                geometries: {
+                  point: {
+                    circle: {
+                      active: {
+                        style: {
+                          r: 4,
+                          fillOpacity: 1,
+                          stroke: '#000',
+                          lineWidth: 1,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              interactions: [{ type: 'marker-active' }, { type: 'brush' }],
+            });
+    
+            line.render();
+            this.chartRef = line;
+            const lastData = _.last(data);
+            const point = line.chart.getXY(lastData);
+            console.log(lastData)
+            console.log(point)
+            line.chart.showTooltip(point);
+            //const activeTooltipTitle = lastData.Time;
+            //this.setState({ tooltipItems: data.filter((d) => d.Time === activeTooltipTitle), activeTooltipTitle });
+            console.log("Created Graph!")
+    
+            line.on('plot:mouseleave', () => {
+              line.chart.hideTooltip();
+            });
+            line.on('tooltip:change', (evt) => {
+              const { title } = evt.data;
+              //const tooltipItems = data.filter((d) => d.Time === title);
+              //this.setState({ tooltipItems, activeTooltipTitle: title });
+            });
+  };
   changeActiveSeries = (activeSeries) => {
     const { activeTooltipTitle, activeSeriesList } = this.state;
     let newList = [];
@@ -214,7 +234,7 @@ insertCss(`
     z-index: 8;
     transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
     background-color: transparent;
-    color: rgb(89, 89, 89);
+    color: rgb(225, 243, 165);
     padding: 0px 12px;
     margin: 0px;
     overflow-x: auto;

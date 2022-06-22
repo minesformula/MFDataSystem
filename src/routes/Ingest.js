@@ -36,7 +36,7 @@ function csvToArray(str, delimiter = ",") {
 }
 
 export default function Ingest() {
-  var db = new PouchDB('test');
+  var db = new PouchDB('test1');
   db.info().then(function (info) {
     console.log(info);
   })
