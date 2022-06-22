@@ -81,7 +81,7 @@ export default function Dashboard() {
       <select defaultValue="Time" name="X" id="x" onChange={handleSelectXChange}>
           {options.map(({ value }, index) => <option value={value} >{value}</option>)}
         </select>
-        <select defaultValue="Distance" name="Y" id="y" onChange={handleSelectYChange}>
+        <select defaultValue="Engine_Speed" name="Y" id="y" onChange={handleSelectYChange}>
           {options.map(({ value }, index) => <option value={value} >{value}</option>)}
         </select>
       <div style={{ width: 1000, margin: '0px'}}>

@@ -26,14 +26,14 @@ class TrendChart extends React.Component {
   async doShit() {
     const chartDom = this.chartNodeRef.current;
         let res = await db.allDocs({
-          include_docs: true,
+          include_docs: true, 
           attachments: true
           })
           let rows = res.rows;
           const dv = new DataView().source(rows); 
           let data = dv.rows.map((d) => ({
             doc: d.doc,
-          }));
+          })); 
           var i = 0;
           while (i < data.length) {
             data[i]=data[i].doc
@@ -44,11 +44,12 @@ class TrendChart extends React.Component {
                 const parsed = parseFloat(data[i][key], 10);
                 data[i][key] = isNaN(parsed) ? data[i][key] : parsed;
               }
+              data[i]["Time"] = data[i]["Time"].toFixed(3)
               ++i;
             }
           }
           console.log("Sorting by: " + this.props.x)
-          console.log(data[0][this.props.x]) 
+          console.log(data[0][this.props.x])
           data.sort((a,b) => (parseFloat(a[this.props.x]) > parseFloat(b[this.props.x])) ? 1 : -1)
           console.log(data[0][this.props.x])
             console.log(data);
@@ -57,9 +58,9 @@ class TrendChart extends React.Component {
             }
 
             //Remove this for infinite graphs
-            if(this.chartNodeRef.current.firstChild){
-              this.chartNodeRef.current.removeChild(this.chartNodeRef.current.firstChild)
-            }
+            // if(this.chartNodeRef.current.firstChild){
+            //   this.chartNodeRef.current.removeChild(this.chartNodeRef.current.firstChild)
+            // }
 
             const line = new Line(chartDom, {
               data,
@@ -70,9 +71,15 @@ class TrendChart extends React.Component {
               xAxis: {
                 type: 'cat',
                 label: {
-                  autoRotate: false,
+                  autoRotate: true,
                   formatter: (v) => {
                     return v.split('/').reverse().join('-');
+                  },
+                },
+                title: {
+                  text: this.props.x + "(s)",
+                  style: {
+                    fontSize: 16,
                   },
                 },
               },
@@ -84,10 +91,11 @@ class TrendChart extends React.Component {
                     },
                   },
                 },
-              },
-              meta: {
-                Date: {
-                  range: [0.04, 0.96],
+                title: {
+                  text: this.props.y,
+                  style: {
+                    fontSize: 16,
+                  },
                 },
               },
               point: {
@@ -102,7 +110,7 @@ class TrendChart extends React.Component {
               },
               appendPadding: [0, 0, 0, 0],
               legend: false,
-              smooth: true,
+              smooth: false,
               lineStyle: {
                 lineWidth: 1.5,
                 stroke: "#fff"
@@ -131,14 +139,12 @@ class TrendChart extends React.Component {
               },
               interactions: [{ type: 'marker-active' }, { type: 'brush' }],
             });
-    
+     
             line.render();
             this.chartRef = line;
             const lastData = _.last(data);
-            const point = line.chart.getXY(lastData);
-            console.log(lastData)
-            console.log(point)
-            line.chart.showTooltip(point);
+            //const point = line.chart.getXY(lastData);
+            //line.chart.showTooltip(point); 
             //const activeTooltipTitle = lastData.Time;
             //this.setState({ tooltipItems: data.filter((d) => d.Time === activeTooltipTitle), activeTooltipTitle });
             console.log("Created Graph!")
