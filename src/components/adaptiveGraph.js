@@ -29,7 +29,7 @@ class TrendChart extends React.Component {
           include_docs: true, 
           attachments: true
           })
-          let rows = res.rows;
+          let rows = res.rows; 
           const dv = new DataView().source(rows); 
           let data = dv.rows.map((d) => ({
             doc: d.doc,

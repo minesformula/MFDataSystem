@@ -10,7 +10,7 @@ export default function Dashboard() {
   
   const [date, setDate] = useState(null);
   const [x, setX] = useState("Time");
-  const [y, setY] = useState("Distance");
+  const [y, setY] = useState("Engine_Speed");
   const handleChange = value => {
     message.info(`Selected Date: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
     setDate(value);
